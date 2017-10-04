@@ -14,8 +14,12 @@ class TransactionsList extends Component {
 		return item.id
 	}
 
-	renderRow(transaction) {
-		return <TransactionItem transaction={transaction.item} />
+	renderRow({ item }) {
+		return (
+            <TransactionItem 
+                transaction={item}
+            />
+        )
 	}
 
 	render() {

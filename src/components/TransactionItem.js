@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { TouchableOpacity, Text, View, StyleSheet, LayoutAnimation } from 'react-native'
+import { Actions } from 'react-native-router-flux';
 
 class TransactionItem extends Component {
 	componentWillUpdate() {
 		LayoutAnimation.easeInEaseOut();
     }
-    
+
     onRowPress() {
-        console.log(this.props.transaction)
+        Actions.addTransaction({ transaction: this.props.transaction })        
     }
 
     render() {

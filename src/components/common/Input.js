@@ -1,12 +1,12 @@
 import React from 'react';
 import { Icon } from 'react-native-material-ui'
-import { TextInput, View, Text } from 'react-native';
+import { TextInput, View } from 'react-native';
 
-const Input = ({ icon, value, onChangeText, placeholder, secureTextEntry }) => {
+const Input = ({ icon, style, value, onChangeText, placeholder, secureTextEntry }) => {
   const { inputStyle, iconStyle, containerStyle } = styles;
 
   return (
-    <View style={containerStyle}>
+    <View style={[containerStyle, style]}>
       <Icon name={icon} style={iconStyle} />
       <TextInput
         secureTextEntry={secureTextEntry}
@@ -26,15 +26,15 @@ const styles = {
     color: '#000',
     paddingRight: 5,
     paddingLeft: 5,
-    fontSize: 18,
+    fontSize: 16,
     lineHeight: 23,
     flex: 2,
   },
   iconStyle: {
-    paddingLeft: 8,
     paddingRight: 8,
   },
   containerStyle: {
+    paddingLeft: 8,
     height: 40,
     flex: 1,
     flexDirection: 'row',
