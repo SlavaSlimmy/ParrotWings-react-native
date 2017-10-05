@@ -16,9 +16,7 @@ class TransactionsList extends Component {
 
 	renderRow({ item }) {
 		return (
-            <TransactionItem 
-                transaction={item}
-            />
+            <TransactionItem transaction={item} />
         )
 	}
 
@@ -39,6 +37,6 @@ const mapStateToProps = state => {
     })
     const { token } = state.auth    
     return { transactions, token }
-};
+}
 
 export default connect(mapStateToProps, { getTransactions })(TransactionsList)

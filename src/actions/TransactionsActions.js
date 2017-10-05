@@ -48,7 +48,6 @@ export function getTransactions(token) {
                 return response.text();
             })
             .then((data) => {
-                console.log(data)
                 if (typeof data === 'string') {
                     dispatch(getTransactionsFailure(data))
                 } else {

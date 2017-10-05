@@ -1,15 +1,53 @@
 import React, { Component } from 'react'
-import { StyleSheet, TouchableOpacity } from 'react-native'
+import { connect } from 'react-redux'
+import { StyleSheet, AsyncStorage } from 'react-native'
 import { Scene, Router, Actions } from 'react-native-router-flux'
-import { Icon } from 'react-native-material-ui'
 import LoginForm from './components/LoginForm'
 import SignupForm from './components/SignupForm'
 import Home from './components/Home'
 import AddTransaction from './components/AddTransaction'
+import { loginUserSuccess, resetTransaction } from './actions'
+import ToolbarButton from './components/ToolbarButton'
+import ToolbarMenu from './components/ToolbarMenu'
+import TitleHome from './components/TitleHome'
 
 class RouterComponent extends Component {
+	componentDidMount() {
+		AsyncStorage.getItem('id_token', (error, result) => {
+			if (result !== null) {
+				this.props.loginUserSuccess(result)
+				Actions.main()
+			}			
+		})
+	}
+
+	renderBackButton = () => {
+        return (
+			<ToolbarButton
+				icon="arrow-back" 
+				onPress={() => {
+					this.props.resetTransaction()
+					Actions.pop()					
+				}} 
+			/>
+        )		
+	}	
+
+	renderMenu = () => {
+        return (
+			<ToolbarMenu />
+        )		
+	}
+	
+	renderHomeTitle = () => {
+        return (
+			<TitleHome />
+        )		
+	}	
+
 	render() {
 		return (
+			
 			<Router sceneStyle={{ paddingTop: 60 }}>
 				<Scene key="auth">
 					<Scene 
@@ -31,16 +69,10 @@ class RouterComponent extends Component {
 				<Scene key="main">
 					<Scene 
 						key="home" 
-						component={Home} 
-						title="Home"
+						component={Home}
+						renderTitle={this.renderHomeTitle.bind(this)}
 						navigationBarStyle={styles.toolbarStyle} 
-						titleStyle={styles.titleStyle}
-						renderLeftButton={() => 
-							<TouchableOpacity onPress={() => console.log('sort')}><Icon name="sort" /></TouchableOpacity>
-						}						
-						renderRightButton={() => 
-							<TouchableOpacity onPress={() => console.log('logout')}><Icon name="exit-to-app" /></TouchableOpacity>
-						}
+						renderRightButton={this.renderMenu.bind(this)}
 					/>
 					<Scene 
 						key="addTransaction" 
@@ -48,9 +80,11 @@ class RouterComponent extends Component {
 						title="Add transaction"
 						navigationBarStyle={styles.toolbarStyle} 
 						titleStyle={styles.titleStyle}
+						renderBackButton={this.renderBackButton.bind(this)}				
 					/>				
 				</Scene>
 			</Router>
+			
 		)
 	}
 }
@@ -70,4 +104,7 @@ const styles = StyleSheet.create({
 	}
 })
 
-export default RouterComponent
+export default connect(null, { 
+	loginUserSuccess, resetTransaction 
+})(RouterComponent)
+

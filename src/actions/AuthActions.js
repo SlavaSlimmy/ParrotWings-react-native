@@ -1,4 +1,6 @@
 import { Actions } from 'react-native-router-flux'
+import { AsyncStorage } from 'react-native'
+import { resetUserInfo } from './UserInfoActions'
 
 import {
     USERNAME_CHANGED, 
@@ -8,6 +10,7 @@ import {
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAIL,
     LOGIN_USER,
+    LOGOUT_USER,
     SIGNUP_USER,
     SIGNUP_USER_FAIL,
     SIGNUP_USER_SUCCESS 
@@ -59,22 +62,22 @@ export const loginUser = ({ email, password }) => {
             return response.text(); 
         })
         .then((data) => {
-            console.log(data);
             if (typeof data === 'string') {
                 loginUserFail(dispatch, data)
             } else {
-                loginUserSuccess(dispatch, data.id_token)
+                dispatch(loginUserSuccess(data.id_token))
                 Actions.main()
             }
         })
     };
 }
 
-const loginUserSuccess = (dispatch, token) => {
-    dispatch({
-      type: LOGIN_USER_SUCCESS,
-      payload: token
-    })
+export const loginUserSuccess = (token) => {
+    AsyncStorage.setItem('id_token', token)
+    return {
+        type: LOGIN_USER_SUCCESS,
+        payload: token
+    }    
 }
   
 const loginUserFail = (dispatch, errorText) => {
@@ -113,6 +116,7 @@ export const signupUser = ({ username, password, email }) => {
 }
 
 const signupUserSuccess = (dispatch, token) => {
+    AsyncStorage.setItem('id_token', token)
     dispatch({
       type: SIGNUP_USER_SUCCESS,
       payload: token
@@ -124,4 +128,13 @@ const signupUserFail = (dispatch, errorText) => {
         type: SIGNUP_USER_FAIL,
         payload: errorText 
     })
+}
+
+export const logoutUser = () => {
+    AsyncStorage.removeItem('id_token')
+    return (dispatch) => {
+        dispatch({ type: LOGOUT_USER })
+        dispatch(resetUserInfo())
+        Actions.auth()
+    }
 }

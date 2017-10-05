@@ -6,6 +6,7 @@ import {
 	LOGIN_USER_SUCCESS,
 	LOGIN_USER_FAIL,
 	LOGIN_USER,
+	LOGOUT_USER,
 	SIGNUP_USER,
 	SIGNUP_USER_FAIL,
 	SIGNUP_USER_SUCCESS 
@@ -43,6 +44,8 @@ export default (state = INITIAL_STATE, action) => {
 			return { ...state, loading: false, error: action.payload, password: '', repassword: '' };
 		case SIGNUP_USER_SUCCESS:
 			return { ...state, ...INITIAL_STATE, token: action.payload };						
+		case LOGOUT_USER:
+			return { ...state, ...INITIAL_STATE };			
 		default:
 			return state
 	}
