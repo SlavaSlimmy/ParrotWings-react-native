@@ -32,7 +32,7 @@ export const getUserInfoSuccess = (data) => {
 
 export const getUserInfo = (token) => {
     return (dispatch) => {
-        dispatch({ type: GET_USER_INFO });
+        dispatch({ type: GET_USER_INFO })
         return fetch('http://193.124.114.46:3001/api/protected/user-info', {
             method: 'get',
             headers: {

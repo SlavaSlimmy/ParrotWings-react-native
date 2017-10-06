@@ -1,26 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { StyleSheet, AsyncStorage } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { Scene, Router, Actions } from 'react-native-router-flux'
 import LoginForm from './components/LoginForm'
 import SignupForm from './components/SignupForm'
 import Home from './components/Home'
 import AddTransaction from './components/AddTransaction'
-import { loginUserSuccess, resetTransaction } from './actions'
+import { resetTransaction } from './actions'
 import ToolbarButton from './components/ToolbarButton'
 import ToolbarMenu from './components/ToolbarMenu'
 import TitleHome from './components/TitleHome'
+import Loading from './components/Loading'
 
 class RouterComponent extends Component {
-	componentDidMount() {
-		AsyncStorage.getItem('id_token', (error, result) => {
-			if (result !== null) {
-				this.props.loginUserSuccess(result)
-				Actions.main({ type: 'reset' })
-			}			
-		})
-	}
-
 	renderBackButton = () => {
         return (
 			<ToolbarButton
@@ -50,6 +42,14 @@ class RouterComponent extends Component {
 			
 			<Router sceneStyle={{ paddingTop: 56 }}>
 				<Scene key="root">
+					<Scene 
+						key="loading" 
+						component={Loading} 
+						title="Loading..."
+						navigationBarStyle={styles.toolbarStyle} 
+						titleStyle={styles.titleStyle}
+						initial
+					/>					
 					<Scene key="auth">
 						<Scene 
 							key="login" 
@@ -57,7 +57,6 @@ class RouterComponent extends Component {
 							title="Login"
 							navigationBarStyle={styles.toolbarStyle} 
 							titleStyle={styles.titleStyle}
-							initial
 						/>
 						<Scene 
 							key="signup" 
@@ -108,6 +107,6 @@ const styles = StyleSheet.create({
 })
 
 export default connect(null, { 
-	loginUserSuccess, resetTransaction 
+	resetTransaction
 })(RouterComponent)
 
