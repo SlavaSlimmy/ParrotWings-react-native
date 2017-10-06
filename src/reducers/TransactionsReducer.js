@@ -8,30 +8,8 @@ import {
 const INITIAL_STATE = {
 	order: 'desc',
 	orderBy: 'date',	
-	allIds: [13, 12, 11],
-	byId: {
-        11: {
-            id: 11,
-            date: '11 April 2016',
-            username: 'gonto',
-            amount: -100,
-            balance: 400
-        },
-        12: {
-            id: 12,
-            date: '12 April 2016',
-            username: 'gonto',
-            amount: 200,
-            balance: 600
-        },
-        13: {
-            id: 13,
-            date: '13 April 2016',
-            username: 'John Smith',
-            amount: -300,
-            balance: 300
-        }                
-    },
+	allIds: [],
+	byId: {},
 	loading: false
 }
 
