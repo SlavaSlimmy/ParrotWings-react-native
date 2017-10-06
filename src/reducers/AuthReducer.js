@@ -9,7 +9,8 @@ import {
 	LOGOUT_USER,
 	SIGNUP_USER,
 	SIGNUP_USER_FAIL,
-	SIGNUP_USER_SUCCESS 
+	SIGNUP_USER_SUCCESS,
+	RESET_AUTH 
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -45,7 +46,9 @@ export default (state = INITIAL_STATE, action) => {
 		case SIGNUP_USER_SUCCESS:
 			return { ...state, ...INITIAL_STATE, token: action.payload };						
 		case LOGOUT_USER:
-			return { ...state, ...INITIAL_STATE };			
+			return { ...state, ...INITIAL_STATE };
+		case RESET_AUTH:
+			return { ...state, ...INITIAL_STATE };						
 		default:
 			return state
 	}

@@ -133,10 +133,10 @@ const styles = StyleSheet.create({
         zIndex: 1
     },
     itemText: {
-        paddingLeft: 6,
-        paddingRight: 6,
-        paddingTop: 3,
-        paddingBottom: 3,
+        paddingLeft: 12,
+        paddingRight: 12,
+        paddingTop: 10,
+        paddingBottom: 10,
         fontSize: 14
     },
 	errorTextStyle: {

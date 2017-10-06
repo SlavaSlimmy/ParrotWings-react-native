@@ -13,7 +13,8 @@ import {
     LOGOUT_USER,
     SIGNUP_USER,
     SIGNUP_USER_FAIL,
-    SIGNUP_USER_SUCCESS 
+    SIGNUP_USER_SUCCESS,
+    RESET_AUTH 
 } from './types'
 
 export const usernameChanged = (text) => {
@@ -66,7 +67,7 @@ export const loginUser = ({ email, password }) => {
                 loginUserFail(dispatch, data)
             } else {
                 dispatch(loginUserSuccess(data.id_token))
-                Actions.main()
+                Actions.main({ type: 'reset' })
             }
         })
     };
@@ -106,10 +107,10 @@ export const signupUser = ({ username, password, email }) => {
         })
         .then((data) => {
             if (typeof data === 'string') {
-                signupUserFail(dispatch, data)
+                dispatch(signupUserFail(data))
             } else {
                 signupUserSuccess(dispatch, data.id_token)
-                Actions.main()                
+                Actions.main({ type: 'reset' })                
             }
         })
     };
@@ -123,11 +124,11 @@ const signupUserSuccess = (dispatch, token) => {
     })
 }
   
-const signupUserFail = (dispatch, errorText) => {
-    dispatch({ 
+export const signupUserFail = (errorText) => {
+    return {
         type: SIGNUP_USER_FAIL,
         payload: errorText 
-    })
+    }    
 }
 
 export const logoutUser = () => {
@@ -135,6 +136,12 @@ export const logoutUser = () => {
     return (dispatch) => {
         dispatch({ type: LOGOUT_USER })
         dispatch(resetUserInfo())
-        Actions.auth()
+        Actions.auth({ type: 'reset' })
     }
+}
+
+export const resetAuth = () => {
+	return {
+		type: RESET_AUTH
+	}
 }

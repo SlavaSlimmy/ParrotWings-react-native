@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { StyleSheet, AsyncStorage } from 'react-native'
-import { Scene, Router, Actions } from 'react-native-router-flux'
+import { Scene, Router, Actions, ActionConst } from 'react-native-router-flux'
 import LoginForm from './components/LoginForm'
 import SignupForm from './components/SignupForm'
 import Home from './components/Home'
@@ -16,7 +16,7 @@ class RouterComponent extends Component {
 		AsyncStorage.getItem('id_token', (error, result) => {
 			if (result !== null) {
 				this.props.loginUserSuccess(result)
-				Actions.main()
+				Actions.main({ type: 'reset' })
 			}			
 		})
 	}
@@ -48,40 +48,43 @@ class RouterComponent extends Component {
 	render() {
 		return (
 			
-			<Router sceneStyle={{ paddingTop: 60 }}>
-				<Scene key="auth">
-					<Scene 
-						key="login" 
-						component={LoginForm} 
-						title="Login"
-						navigationBarStyle={styles.toolbarStyle} 
-						titleStyle={styles.titleStyle}
-						initial
-					/>
-					<Scene 
-						key="signup" 
-						component={SignupForm} 
-						title="Signup"
-						navigationBarStyle={styles.toolbarStyle} 
-						titleStyle={styles.titleStyle}
-					/>				
-				</Scene>
-				<Scene key="main">
-					<Scene 
-						key="home" 
-						component={Home}
-						renderTitle={this.renderHomeTitle.bind(this)}
-						navigationBarStyle={styles.toolbarStyle} 
-						renderRightButton={this.renderMenu.bind(this)}
-					/>
-					<Scene 
-						key="addTransaction" 
-						component={AddTransaction} 
-						title="Add transaction"
-						navigationBarStyle={styles.toolbarStyle} 
-						titleStyle={styles.titleStyle}
-						renderBackButton={this.renderBackButton.bind(this)}				
-					/>				
+			<Router sceneStyle={{ paddingTop: 56 }}>
+				<Scene key="root">
+					<Scene key="auth">
+						<Scene 
+							key="login" 
+							component={LoginForm} 
+							title="Login"
+							navigationBarStyle={styles.toolbarStyle} 
+							titleStyle={styles.titleStyle}
+							initial
+						/>
+						<Scene 
+							key="signup" 
+							component={SignupForm} 
+							title="Signup"
+							navigationBarStyle={styles.toolbarStyle} 
+							titleStyle={styles.titleStyle}
+							renderBackButton={this.renderBackButton.bind(this)}
+						/>				
+					</Scene>
+					<Scene key="main">
+						<Scene 
+							key="home" 
+							component={Home}
+							renderTitle={this.renderHomeTitle.bind(this)}
+							navigationBarStyle={styles.toolbarStyle} 
+							renderRightButton={this.renderMenu.bind(this)}
+						/>
+						<Scene 
+							key="addTransaction" 
+							component={AddTransaction} 
+							title="Add transaction"
+							navigationBarStyle={styles.toolbarStyle} 
+							titleStyle={styles.titleStyle}
+							renderBackButton={this.renderBackButton.bind(this)}
+						/>				
+					</Scene>
 				</Scene>
 			</Router>
 			

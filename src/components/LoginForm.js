@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button, Card } from 'react-native-material-ui'
-import { View, Text, StyleSheet, Keyboard } from 'react-native'
+import { View, Keyboard, ScrollView } from 'react-native'
 import { Actions } from 'react-native-router-flux'
-import { Container, Section, Input, Spinner } from './common'
-import { emailChanged, passwordChanged, loginUser } from '../actions'
+import { Container, Section, Input, Spinner, ErrorBlock } from './common'
+import { emailChanged, passwordChanged, loginUser, resetAuth } from '../actions'
 
 class LoginForm extends Component {
 
@@ -23,7 +23,8 @@ class LoginForm extends Component {
     }
         
 	onSignupPress() {
-        Actions.signup({ type: 'reset' })	
+        this.props.resetAuth()
+        Actions.signup()	
     }
     
     renderButtons() {
@@ -50,47 +51,39 @@ class LoginForm extends Component {
     render() {
         return (
             <Container>
-                <Card>
-                    <Section>
-                        <Input 
-                            label="Email"
-                            placeholder="email@gmail.com"
-                            icon="email"
-                            onChangeText={this.onEmailChange.bind(this)}
-                            value={this.props.email}
-                        />
-                    </Section>
+                <ScrollView style={{ flex: 1 }}>
+                    <Card>
+                        <Section>
+                            <Input 
+                                label="Email"
+                                placeholder="email@gmail.com"
+                                icon="email"
+                                onChangeText={this.onEmailChange.bind(this)}
+                                value={this.props.email}
+                            />
+                        </Section>
 
-                    <Section>
-                        <Input 
-                            secureTextEntry
-                            label="Password"
-                            placeholder="password"
-                            icon="https"
-                            onChangeText={this.onPasswordChange.bind(this)}
-                            value={this.props.password}
-                        />                        
-                    </Section>
+                        <Section>
+                            <Input 
+                                secureTextEntry
+                                label="Password"
+                                placeholder="password"
+                                icon="https"
+                                onChangeText={this.onPasswordChange.bind(this)}
+                                value={this.props.password}
+                            />                        
+                        </Section>
 
-                    <Text style={styles.errorTextStyle}>
-                        { this.props.error }
-                    </Text>                    
+                        <ErrorBlock text={this.props.error} />                  
 
-                    {this.renderButtons()}
+                        {this.renderButtons()}
 
-                </Card>
+                    </Card>
+                </ScrollView>
             </Container>
         )
     }
 }
-
-const styles = StyleSheet.create({
-	errorTextStyle: {
-		fontSize: 14,
-		alignSelf: 'center',
-		color: 'red'
-	}
-})
 
 const mapStateToProps = (state) => {
 	const { email, password, error, loading } = state.auth
@@ -98,5 +91,5 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, { 
-	emailChanged, passwordChanged, loginUser 
+	emailChanged, passwordChanged, loginUser, resetAuth 
 })(LoginForm)
