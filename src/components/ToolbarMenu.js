@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Text } from 'react-native'
+import { Text, View, StyleSheet } from 'react-native'
 import Menu, { MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu'
 import { Icon } from 'react-native-material-ui'
 import { logoutUser, sortTransactions } from '../actions'
@@ -27,9 +27,11 @@ class ToolbarMenu extends Component {
 
     render() {
         return (
-            <Menu onSelect={this.handleSelectedItem.bind(this)}>
-                <MenuTrigger>
-                    <Icon name="more-vert" color="white" />
+            <Menu onSelect={this.handleSelectedItem.bind(this)} style={styles.containerStyle}>
+                <MenuTrigger style={styles.menuTriggerStyle}>
+                    <View style={styles.triggerButtonStyle}>
+                        <Icon name="more-vert" color="white" />
+                    </View>                    
                 </MenuTrigger>
                 <MenuOptions>
                     <MenuOption value={1}>
@@ -49,6 +51,22 @@ class ToolbarMenu extends Component {
         )
     }
 }
+
+const styles = StyleSheet.create({
+    containerStyle: {
+        top: -11, 
+        right: -4
+    },
+    menuTriggerStyle: {
+        alignSelf: 'center'  
+    },
+    triggerButtonStyle: {
+        width: 40,
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
+})
 
 export default connect(null, { 
 	logoutUser, sortTransactions 
