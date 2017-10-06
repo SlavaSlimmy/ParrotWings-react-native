@@ -135,9 +135,9 @@ const styles = StyleSheet.create({
     itemText: {
         paddingLeft: 12,
         paddingRight: 12,
-        paddingTop: 10,
-        paddingBottom: 10,
-        fontSize: 14
+        paddingTop: 8,
+        paddingBottom: 8,
+        fontSize: 16
     },
 	errorTextStyle: {
 		fontSize: 14,

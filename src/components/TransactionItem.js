@@ -15,26 +15,28 @@ class TransactionItem extends Component {
         const { username, date, amount, balance } = this.props.transaction;
     
         return (
-            <TouchableOpacity onPress={this.onRowPress.bind(this)}>
-                <View style={styles.containerStyle}>
-                    <View style={styles.leftBlockStyle}>
-                        <Text>
-                            {username}
-                        </Text>
-                        <Text style={styles.greyTextStyle}>
-                            {date}
-                        </Text>
+            <View style={styles.containerStyle}>
+                <TouchableOpacity onPress={this.onRowPress.bind(this)}>
+                    <View style={styles.touchableStyle}>
+                        <View style={styles.leftBlockStyle}>
+                            <Text style={styles.usernameStyle}>
+                                {username}
+                            </Text>
+                            <Text style={styles.greyTextStyle}>
+                                {date}
+                            </Text>
+                        </View>
+                        <View style={styles.rightBlockStyle}>
+                            <Text style={[styles.rightTextStyle, styles.amountTextStyle, amount < 0 && styles.amountRedTextStyle]}>
+                                {amount}
+                            </Text>
+                            <Text style={[styles.rightTextStyle, styles.greyTextStyle]}>
+                                {balance}
+                            </Text>
+                        </View>                    
                     </View>
-                    <View style={styles.rightBlockStyle}>
-                        <Text style={[styles.rightTextStyle, styles.amountTextStyle, amount < 0 && styles.amountRedTextStyle]}>
-                            {amount}
-                        </Text>
-                        <Text style={[styles.rightTextStyle, styles.greyTextStyle]}>
-                            {balance}
-                        </Text>
-                    </View>                    
-                </View>
-            </TouchableOpacity>
+                </TouchableOpacity>
+            </View>
         );
       }
 }
@@ -43,9 +45,12 @@ const styles = StyleSheet.create({
 	containerStyle: {
 		borderBottomWidth: 1,
 		borderColor: '#ddd',
+    },
+    touchableStyle: {
         justifyContent: 'space-between',
         flexDirection: 'row',
-        padding: 8,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
         alignItems: 'center'
     },
     leftBlockStyle: {
@@ -59,7 +64,11 @@ const styles = StyleSheet.create({
     rightTextStyle: {
         textAlign: 'right'
     },
+    usernameStyle: {
+        fontSize: 16
+    },
     amountTextStyle: {
+        fontSize: 16,
         color: '#4caf50'
     },
     amountRedTextStyle: {
